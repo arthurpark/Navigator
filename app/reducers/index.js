@@ -1,44 +1,22 @@
-import { NavigationExperimental } from 'react-native';
+/**
+ * Root Reducer
+ * @flow
+ */
+import navigation from './navigation';
 
-const {
-  StateUtils: NavigationStateUtils,
-} = NavigationExperimental;
+export default function reducer(
+  state: ?NavigationState = {},
+  action: any
+): Object {
+  const nextState = {
+    navigation: navigation(state.navigation, action)
+  };
 
-const initialState = {
-  index: 0,
-  routes: [
-    { key: 'home' }
-  ],
-};
+  console.log(nextState === state, nextState, state)
 
-const navigationReducers = {
-  push(state, action: any) {
-    const route = { key: action.key };
-    return NavigationStateUtils.push(state, route);
-  },
-
-  pop(state, action: any) {
-    return NavigationStateUtils.pop(state);
-  }
-};
-
-const navigation = (state: ?NavigationState, action: any): ?NavigationState => {
-  if (!state) {
-    return initialState;
-  }
-
-  const reducer = navigationReducers[action.type];
-  if (reducer) {
-    return reducer(state, action);
+  if (nextState !== state) {
+    return nextState;
   }
 
   return state;
-}
-
-export default function reducer(
-  state: ?NavigationState = {}, action: any
-): Object {
-  return {
-    navigation: navigation(state.navigation, action)
-  };
 }

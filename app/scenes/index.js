@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     paddingTop: 30,
-    backgroundColor: 'blue'
+    backgroundColor: '#ccc'
   },
   text: {
     color: 'white'

@@ -6,17 +6,18 @@ import {
   NavigationExperimental,
   StyleSheet
 } from 'react-native';
-import reducer from './reducers';
+import reducer from './reducers/navigation';
 import {
   Home,
   About,
   Modal
 } from './scenes';
-import Scene from './components/scene';
+import Tabs from './components/tabs';
 
 const {
   CardStack: NavigationCardStack,
   Header: NavigationHeader,
+  PropTypes: NavigationPropTypes,
 } = NavigationExperimental;
 
 
@@ -26,26 +27,37 @@ export default class Navigator extends Component {
   constructor(props) {
     super(props);
 
-    this.state = reducer().navigation;
+    this.state = reducer();
   }
 
   render() {
+    const { tabs } = this.state;
+    const tabKey = tabs.routes[tabs.index].key;
+    const tabState = this.state[tabKey];
+
     return (
-      <NavigationCardStack
-        style={styles.stack}
-        cardStyle={styles.card}
-        navigationState={this.state}
-        onNavigateBack={this._onNavigateBack}
-        renderScene={this._renderScene}
-        renderOverlay={this._renderOverlay}
-      />
+      <View style={styles.navigator}>
+        <NavigationCardStack
+          style={styles.stack}
+          cardStyle={styles.card}
+          navigationState={tabState}
+          onNavigateBack={this._onNavigateBack}
+          renderScene={this._renderScene}
+          renderOverlay={this._renderOverlay}
+        />
+        <Tabs tabs={tabs} onNavigate={this._navigate} />
+      </View>
     );
   }
 
+  // Render active tab's scene
+  // TODO: without inspecting sceneProps.scene, render
+  //       Scene based on selected tab, which then should
+  //       render proper screen based on sceneProps.scene
   _renderScene = (sceneProps: Object): ReactElement => {
-    console.trace('_renderScene', sceneProps.scene.route.key);
+    // console.log('_renderScene', sceneProps.scene);
     switch (sceneProps.scene.route.key) {
-      case 'home':
+      case 'Home':
         return (
           <Home
             {...sceneProps}
@@ -53,7 +65,7 @@ export default class Navigator extends Component {
             navigate={this._navigate}
           />
         );
-      case 'about':
+      case 'About':
         return (
           <About
             {...sceneProps}
@@ -61,7 +73,7 @@ export default class Navigator extends Component {
             navigate={this._navigate}
           />
         );
-      case 'modal':
+      case 'Modal':
         return (
           <Modal
             {...sceneProps}
@@ -73,21 +85,31 @@ export default class Navigator extends Component {
   };
 
   _renderOverlay = (sceneProps: NavigationSceneRendererProps): ReactElement<any> => {
-    console.log('_renderOverlay', sceneProps);
+    // console.log('_renderOverlay', sceneProps);
     return (
       <NavigationHeader
         {...sceneProps}
+        renderTitleComponent={this._renderTitleComponent}
+        onNavigateBack={this._handleNavigateBack}
+        style={styles.header}
       />
     );
   };
 
+  _renderTitleComponent = (sceneProps: NavigationSceneRendererProps): ReactElement => {
+    const { tabs } = this.state;
+    const tabKey = tabs.routes[tabs.index].key;
+
+    return (
+      <NavigationHeader.Title>
+        {tabKey}
+      </NavigationHeader.Title>
+    );
+  }
+
   // TODO: Dispatch Navigation Action
   // Reduce state based on action
   _navigate = (action: any) => {
-    if (action.type === 'exit') {
-      return false;
-    }
-
     const nextState = reducer(this.state, action);
 
     if (nextState === this.state) {
@@ -97,9 +119,19 @@ export default class Navigator extends Component {
     this.setState(nextState);
     return true;
   };
+
+  _handleNavigateBack = (): void => {
+    this._navigate({ type: 'pop' });
+  };
 }
 
 const styles = StyleSheet.create({
+  navigator: {
+    flex: 1,
+  },
+  header: {
+    // backgroundColor: 'rgba(0, 0, 0, 0.25)'
+  },
   stack: {
     flex: 1,
   },
