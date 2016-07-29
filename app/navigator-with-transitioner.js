@@ -1,3 +1,6 @@
+/**
+ * @deprecated
+ */
 import React, { Component } from 'react';
 import {
   Easing,
