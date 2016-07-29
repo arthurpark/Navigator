@@ -40,12 +40,12 @@ export default class Scene extends Component {
       // onNavigateForward: () => navigate('forward'),
     });
 
-    // const style = [styles.scene, this._getAnimatedStyle()];
-    const style = [
-      styles.scene,
-      { backgroundColor: scene.route.color },
-      NavigationPagerStyleInterpolator.forHorizontal(this.props)
-    ];
+    const style = [styles.scene, this._getAnimatedStyle()];
+    // const style = [
+    //   styles.scene,
+    //   { backgroundColor: scene.route.color },
+    //   NavigationPagerStyleInterpolator.forHorizontal(this.props)
+    // ];
 
     console.log('color', scene, scene.route.color);
 
