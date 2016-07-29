@@ -19,10 +19,16 @@ import {
 import TabBar from './components/tab-bar';
 
 const {
-  CardStack: NavigationCardStack,
+  Transitioner: NavigationTransitioner,
+  Card: NavigationCard,
   Header: NavigationHeader,
   PropTypes: NavigationPropTypes,
 } = NavigationExperimental;
+
+const {
+  CardStackStyleInterpolator: NavigationCardStackStyleInterpolator,
+  CardStackPanResponder: NavigationCardStackPanResponder
+} = NavigationCard;
 
 
 export default class Navigator extends Component {
@@ -38,28 +44,94 @@ export default class Navigator extends Component {
     const { tabs } = this.state;
     const tabKey = tabs.routes[tabs.index].key;
     const tabState = this.state[tabKey];
+    const route = tabState.routes[tabState.index];
+    const hideTabBar = route.key === 'Modal';
 
     return (
       <View style={styles.navigator}>
-        <NavigationCardStack
+        <NavigationTransitioner
           style={styles.stack}
-          cardStyle={styles.card}
           navigationState={tabState}
-          onNavigateBack={this._onNavigateBack}
-          renderScene={this._renderScene}
-          renderOverlay={this._renderOverlay}
+          render={this._render}
         />
-        <TabBar navigationState={tabs} onNavigate={this._navigate} />
+
+        {!hideTabBar && (
+          <TabBar navigationState={tabs} onNavigate={this._navigate} />
+        )}
       </View>
     );
   }
 
+  _render = (transitionProps): ReactElement => {
+    const { navigationState } = transitionProps;
+
+    const route = navigationState.routes[navigationState.index];
+    const activeScene = transitionProps.scenes.find(
+      scene => !scene.isStale && scene.route === route ? scene : undefined
+    );
+    const sceneProps = { ...transitionProps, activeScene };
+
+    const scenes = transitionProps.scenes.map(
+      scene => this._renderScene({
+        ...transitionProps,
+        scene,
+        direction: scene.route.direction
+      })
+    );
+
+    const hideHeader = activeScene.route.key === 'Modal';
+
+    return (
+      <View style={{ flex: 1 }}>
+        <View style={styles.cardContainer}>
+          {scenes}
+        </View>
+
+        {!hideHeader && (
+          <NavigationHeader
+            {...sceneProps}
+            renderTitleComponent={({ scene }) => (
+              <NavigationHeader.Title>
+                {scene.route.key}
+              </NavigationHeader.Title>
+            )}
+            onNavigateBack={this._handleNavigateBack}
+            style={styles.header}
+          />
+        )}
+      </View>
+    )
+  };
+
   // Render active tab's scene
-  // TODO: without inspecting sceneProps.scene, render
-  //       Scene based on selected tab, which then should
-  //       render proper screen based on sceneProps.scene
   _renderScene = (sceneProps: Object): ReactElement => {
-    // console.log('_renderScene', sceneProps.scene);
+    const { scene, direction } = sceneProps;
+    const isVertical = direction === 'vertical';
+
+    const style = isVertical
+                ? NavigationCardStackStyleInterpolator.forVertical(sceneProps)
+                : NavigationCardStackStyleInterpolator.forHorizontal(sceneProps);
+
+    const panHandlersProps = {
+      ...sceneProps,
+      onNavigateBack: this._handleNavigateBack,
+    };
+    const panHandlers = isVertical
+                      ? NavigationCardStackPanResponder.forVertical(panHandlersProps)
+                      : NavigationCardStackPanResponder.forHorizontal(panHandlersProps);
+
+    return (
+      <NavigationCard
+        {...sceneProps}
+        key={'card_' + scene.key}
+        panHandlers={panHandlers}
+        renderScene={this._renderTab}
+        style={[style, styles.card]}
+      />
+    );
+  };
+
+  _renderTab = (sceneProps: Object): ReactElement => {
     const { tabs } = this.state;
     const tabKey = tabs.routes[tabs.index].key;
     const tabState = this.state[tabKey];
@@ -79,39 +151,8 @@ export default class Navigator extends Component {
           onNavigate={this._navigate}
         />
       );
-    case 'modal':
-      return (
-        <Modal
-          {...sceneProps}
-          key={sceneProps.scene.key}
-          navigate={this._navigate}
-        />
-      );
     }
   };
-
-  _renderOverlay = (sceneProps: NavigationSceneRendererProps): ReactElement<any> => {
-    // console.log('_renderOverlay', sceneProps);
-    return (
-      <NavigationHeader
-        {...sceneProps}
-        renderTitleComponent={this._renderTitleComponent}
-        onNavigateBack={this._handleNavigateBack}
-        style={styles.header}
-      />
-    );
-  };
-
-  _renderTitleComponent = (sceneProps: NavigationSceneRendererProps): ReactElement => {
-    const { tabs } = this.state;
-    const tabKey = tabs.routes[tabs.index].key;
-
-    return (
-      <NavigationHeader.Title>
-        {sceneProps.scene.route.key}
-      </NavigationHeader.Title>
-    );
-  }
 
   // TODO: Dispatch Navigation Action
   // Reduce state based on action
@@ -143,5 +184,8 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-  }
+  },
+  cardContainer: {
+    flex: 1,
+  },
 });

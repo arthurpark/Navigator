@@ -19,7 +19,6 @@ export default class Thread extends Component {
     const { scene, scenes } = sceneProps;
 
     return (
-      <Scene {...sceneProps} navigate={navigate}>
         <ScrollView style={styles.scrollView}>
 
           <View>
@@ -32,7 +31,6 @@ export default class Thread extends Component {
           />
 
         </ScrollView>
-      </Scene>
     );
   }
 }
@@ -40,8 +38,6 @@ export default class Thread extends Component {
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
+    paddingTop: 64,
   },
-  text: {
-
-  }
 });

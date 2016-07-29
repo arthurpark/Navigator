@@ -19,24 +19,22 @@ export default class Contacts extends Component {
     const { scene, scenes } = sceneProps;
 
     return (
-      <Scene {...sceneProps} navigate={navigate}>
-        <ScrollView style={styles.scrollView}>
+      <ScrollView style={styles.scrollView}>
 
-          <View>
-            <Text>Contacts: {scene.route.key}</Text>
-          </View>
+        <View>
+          <Text>Contacts: {scene.route.key}</Text>
+        </View>
 
-          <Button
-            label="Thread"
-            onPress={() => navigate({ type: 'push', route: { key: 'Thread' } })}
-          />
-          <Button
-            label="Pop Route"
-            onPress={() => navigate({ type: 'pop' })}
-          />
+        <Button
+          label="Thread"
+          onPress={() => navigate({ type: 'push', route: { key: 'Thread' } })}
+        />
+        <Button
+          label="Pop Route"
+          onPress={() => navigate({ type: 'pop' })}
+        />
 
-        </ScrollView>
-      </Scene>
+      </ScrollView>
     );
   }
 }
@@ -44,5 +42,6 @@ export default class Contacts extends Component {
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
+    paddingTop: 64,
   },
 });

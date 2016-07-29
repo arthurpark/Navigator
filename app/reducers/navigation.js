@@ -13,7 +13,6 @@ const initialState = {
     routes: [
       {key: 'home'},
       {key: 'contacts'},
-      {key: 'modal'},
     ],
   },
   // Scenes for the `home` tab.
@@ -29,7 +28,7 @@ const initialState = {
   // Scenes for the `modal` tab.
   modal: {
     index: 0,
-    routes: [{key: 'Modal', color: '#ffff00'}],
+    routes: [{ key: 'Modal', color: '#ffff00', direction: 'vertical' }],
   },
 };
 

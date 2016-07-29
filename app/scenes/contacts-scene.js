@@ -4,7 +4,6 @@
  */
 import React, { Component, PropTypes } from 'react';
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
-import Scene from '../components/scene';
 import Contacts from './contacts';
 import Thread from './thread';
 import Button from '../components/button';

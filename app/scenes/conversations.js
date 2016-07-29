@@ -19,24 +19,28 @@ export default class Conversations extends Component {
     const { scene, scenes } = sceneProps;
 
     return (
-      <Scene {...sceneProps} navigate={navigate}>
-        <ScrollView style={styles.scrollView}>
+      <ScrollView style={styles.scrollView}>
 
-          <View>
-            <Text>Conversations: {scene.route.key}</Text>
-          </View>
+        <View>
+          <Text>Conversations: {scene.route.key}</Text>
+        </View>
 
-          <Button
-            label="Thread"
-            onPress={() => navigate({ type: 'push', route: { key: 'Thread' } })}
-          />
-          <Button
-            label="Pop Route"
-            onPress={() => navigate({ type: 'pop' })}
-          />
+        <Button
+          label="Thread"
+          onPress={() => navigate({ type: 'push', route: { key: 'Thread' } })}
+        />
 
-        </ScrollView>
-      </Scene>
+        <Button
+          label="Modal"
+          onPress={() => navigate({ type: 'push', route: { key: 'Modal', direction: 'vertical' } })}
+        />
+
+        <Button
+          label="Pop Route"
+          onPress={() => navigate({ type: 'pop' })}
+        />
+
+      </ScrollView>
     );
   }
 }
@@ -44,5 +48,6 @@ export default class Conversations extends Component {
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
+    paddingTop: 64,
   },
 });

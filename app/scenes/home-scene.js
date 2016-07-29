@@ -4,11 +4,9 @@
  * @flow
  */
 import React, { Component, PropTypes } from 'react';
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
-import Scene from '../components/scene';
 import Conversations from './conversations';
 import Thread from './thread';
-import Button from '../components/button';
+import Modal from './modal';
 
 // TODO: Inspect scene to determine which screen to show
 //       while staying at Home tab
@@ -28,6 +26,10 @@ export default class HomeScene extends Component {
       return (
         <Thread sceneProps={sceneProps} navigate={onNavigate} />
       );
+    case 'Modal':
+      return (
+        <Modal sceneProps={sceneProps} navigate={onNavigate} />
+      );
 
     case 'Home':
     default:
@@ -37,9 +39,3 @@ export default class HomeScene extends Component {
     }
   }
 }
-
-const styles = StyleSheet.create({
-  scrollView: {
-    flex: 1,
-  },
-});

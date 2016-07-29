@@ -9,29 +9,27 @@ import Button from '../components/button';
 
 export default class Modal extends Component {
   static propTypes = {
-    onNavigate: PropTypes.func.isRequired,
-    scene: PropTypes.object.isRequired,
-    transitionProps: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
+    sceneProps: PropTypes.object.isRequired,
   };
 
   render() {
-    const { onNavigate, scene, transitionProps } = this.props;
+    const { navigate, sceneProps } = this.props;
+    const { scene } = sceneProps;
+
     return (
-      <Scene {...transitionProps}>
-        <ScrollView style={styles.scrollView}>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.container}>
+          <Text style={styles.text}>Modal: {scene.route.key}</Text>
 
-          <ScrollView style={styles.scrollView}>
-            <View>
-              <Text>Modal: {scene.route.key}</Text>
-            </View>
+          <Button
+            label="Close"
+            onPress={() => navigate({ type: 'pop' })}
+          />
+        </View>
 
-            <Button
-              label="Close"
-              onPress={() => onNavigate({ type: 'pop' })}
-            />
-          </ScrollView>
-        </ScrollView>
-      </Scene>
+
+      </ScrollView>
     )
   }
 }
@@ -39,6 +37,19 @@ export default class Modal extends Component {
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
-    backgroundColor: '#cecece',
+    paddingTop: 16,
+    backgroundColor: '#777777',
   },
+  container: {
+    flex: 1,
+    // flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+  },
+  text: {
+    color: '#ffffff',
+    fontSize: 20,
+    padding: 20,
+    textAlign: 'center',
+  }
 });
