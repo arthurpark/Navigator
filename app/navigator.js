@@ -12,7 +12,7 @@ import {
   About,
   Modal
 } from './scenes';
-import Tabs from './components/tabs';
+import TabBar from './components/tab-bar';
 
 const {
   CardStack: NavigationCardStack,
@@ -45,7 +45,7 @@ export default class Navigator extends Component {
           renderScene={this._renderScene}
           renderOverlay={this._renderOverlay}
         />
-        <Tabs tabs={tabs} onNavigate={this._navigate} />
+        <TabBar tabs={tabs} onNavigate={this._navigate} />
       </View>
     );
   }

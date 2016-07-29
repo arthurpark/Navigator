@@ -1,5 +1,5 @@
 /**
- * Tabs
+ * TabBar
  * @flow
  */
 import React, { Component, PropTypes } from 'react';
@@ -28,7 +28,7 @@ class Tab extends Component {
   };
 }
 
-export default class Tabs extends Component {
+export default class TabBar extends Component {
   static propTypes = {
     tabs: NavigationExperimental.PropTypes.navigationState.isRequired,
     onNavigate: PropTypes.func.isRequired,
