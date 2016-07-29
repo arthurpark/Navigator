@@ -7,7 +7,7 @@ import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import Scene from '../components/scene';
 import Button from '../components/button';
 
-export default class About extends Component {
+export default class ContactsScene extends Component {
   static propTypes = {
     onNavigate: PropTypes.func.isRequired,
     scene: PropTypes.object.isRequired,
@@ -22,7 +22,7 @@ export default class About extends Component {
 
           <ScrollView style={styles.scrollView}>
             <View>
-              <Text>About: {scene.route.key}</Text>
+              <Text>Contacts: {scene.route.key}</Text>
             </View>
 
             <Button

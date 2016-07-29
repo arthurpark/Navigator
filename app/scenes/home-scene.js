@@ -7,7 +7,7 @@ import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import Scene from '../components/scene';
 import Button from '../components/button';
 
-export default class Home extends Component {
+export default class HomeScene extends Component {
   static propTypes = {
     onNavigate: PropTypes.func.isRequired,
     scene: PropTypes.object.isRequired,
