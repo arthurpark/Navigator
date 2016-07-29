@@ -13,45 +13,45 @@ import {
 
 class Tab extends Component {
   render() {
-    const { tab, style } = this.props;
+    const { route, style } = this.props;
 
     return (
       <TouchableHighlight onPress={this._handleTabPress} style={[styles.tab, style]}>
-        <Text style={styles.tabText}>{tab.key}</Text>
+        <Text style={styles.tabText}>{route.key}</Text>
       </TouchableHighlight>
     );
   }
 
   _handleTabPress = (): void => {
-    const { tab, onNavigate } = this.props;
-    onNavigate({ type: 'selectTab', tabKey: tab.key });
+    const { route, onNavigate } = this.props;
+    onNavigate({ type: 'selectTab', tabKey: route.key });
   };
 }
 
 export default class TabBar extends Component {
   static propTypes = {
-    tabs: NavigationExperimental.PropTypes.navigationState.isRequired,
+    navigationState: NavigationExperimental.PropTypes.navigationState.isRequired,
     onNavigate: PropTypes.func.isRequired,
   };
 
   render() {
-    const { tabs } = this.props;
+    const { navigationState } = this.props;
 
     return (
       <View style={styles.tabs}>
-        {tabs.routes.map(this._renderTab)}
+        {navigationState.routes.map(this._renderTab)}
       </View>
     );
   }
 
-  _renderTab = (tab, index) => {
-    const { tabs, onNavigate } = this.props;
+  _renderTab = (route, index) => {
+    const { navigationState, onNavigate } = this.props;
 
     return (
-      <Tab key={tab.key}
-        tab={tab}
+      <Tab key={route.key}
+        route={route}
         onNavigate={onNavigate}
-        style={tabs.index === index ? styles.activeTab : undefined}
+        style={navigationState.index === index ? styles.activeTab : undefined}
       />
     );
   };

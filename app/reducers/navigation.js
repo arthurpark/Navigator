@@ -12,24 +12,24 @@ const initialState = {
     index: 0,
     routes: [
       {key: 'home'},
-      {key: 'about'},
+      {key: 'contacts'},
       {key: 'modal'},
     ],
   },
   // Scenes for the `home` tab.
   home: {
     index: 0,
-    routes: [{key: 'Home'}],
+    routes: [{key: 'Conversations', color: '#ff0000'}],
   },
-  // Scenes for the `about` tab.
-  about: {
+  // Scenes for the `contacts` tab.
+  contacts: {
     index: 0,
-    routes: [{key: 'About'}],
+    routes: [{key: 'Contacts', color: '#ff7f00'}],
   },
   // Scenes for the `modal` tab.
   modal: {
     index: 0,
-    routes: [{key: 'Modal'}],
+    routes: [{key: 'Modal', color: '#ffff00'}],
   },
 };
 

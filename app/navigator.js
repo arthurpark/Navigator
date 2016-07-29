@@ -1,3 +1,7 @@
+/**
+ * Navigator
+ * @flow
+ */
 import React, { Component } from 'react';
 import {
   Easing,
@@ -9,7 +13,7 @@ import {
 import reducer from './reducers/navigation';
 import {
   Home,
-  About,
+  Contacts,
   Modal
 } from './scenes';
 import TabBar from './components/tab-bar';
@@ -45,7 +49,7 @@ export default class Navigator extends Component {
           renderScene={this._renderScene}
           renderOverlay={this._renderOverlay}
         />
-        <TabBar tabs={tabs} onNavigate={this._navigate} />
+        <TabBar navigationState={tabs} onNavigate={this._navigate} />
       </View>
     );
   }
@@ -56,31 +60,33 @@ export default class Navigator extends Component {
   //       render proper screen based on sceneProps.scene
   _renderScene = (sceneProps: Object): ReactElement => {
     // console.log('_renderScene', sceneProps.scene);
-    switch (sceneProps.scene.route.key) {
-      case 'Home':
-        return (
-          <Home
-            {...sceneProps}
-            key={sceneProps.scene.key}
-            onNavigate={this._navigate}
-          />
-        );
-      case 'About':
-        return (
-          <About
-            {...sceneProps}
-            key={sceneProps.scene.key}
-            navigate={this._navigate}
-          />
-        );
-      case 'Modal':
-        return (
-          <Modal
-            {...sceneProps}
-            key={sceneProps.scene.key}
-            navigate={this._navigate}
-          />
-        );
+    const { tabs } = this.state;
+    const tabKey = tabs.routes[tabs.index].key;
+    const tabState = this.state[tabKey];
+
+    switch (tabKey) {
+    case 'home':
+      return (
+        <Home key={sceneProps.scene.key}
+          sceneProps={sceneProps}
+          onNavigate={this._navigate}
+        />
+      );
+    case 'contacts':
+      return (
+        <Contacts key={sceneProps.scene.key}
+          sceneProps={sceneProps}
+          onNavigate={this._navigate}
+        />
+      );
+    case 'modal':
+      return (
+        <Modal
+          {...sceneProps}
+          key={sceneProps.scene.key}
+          navigate={this._navigate}
+        />
+      );
     }
   };
 
@@ -102,7 +108,7 @@ export default class Navigator extends Component {
 
     return (
       <NavigationHeader.Title>
-        {tabKey}
+        {sceneProps.scene.route.key}
       </NavigationHeader.Title>
     );
   }

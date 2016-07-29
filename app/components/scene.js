@@ -3,21 +3,56 @@
  * @flow
  */
 import React, { Component, PropTypes } from 'react';
-import { Animated, ScrollView, View, Text, StyleSheet } from 'react-native';
+import {
+  Animated,
+  ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  NavigationExperimental,
+} from 'react-native';
 import Button from './button';
 
+const { Card: NavigationCard } = NavigationExperimental;
+const {
+  PagerPanResponder: NavigationPagerPanResponder,
+  PagerStyleInterpolator: NavigationPagerStyleInterpolator,
+} = NavigationCard;
+
 export default class Scene extends Component {
+  props: NavigationSceneRendererProps & {
+    navigate: Function,
+    children: any,
+  };
+
   static propTypes = {
-    children: PropTypes.node,
+    children: PropTypes.node.isRequired,
     style: PropTypes.object,
+    navigate: PropTypes.func.isRequired
   };
 
   render(): ReactElement<any> {
-    const { children } = this.props;
+    const { children, scene } = this.props;
+
+    const panHandlers = NavigationPagerPanResponder.forHorizontal({
+      ...this.props,
+      // onNavigateBack: () => navigate('back'),
+      // onNavigateForward: () => navigate('forward'),
+    });
+
+    // const style = [styles.scene, this._getAnimatedStyle()];
+    const style = [
+      styles.scene,
+      { backgroundColor: scene.route.color },
+      NavigationPagerStyleInterpolator.forHorizontal(this.props)
+    ];
+
+    console.log('color', scene, scene.route.color);
 
     return (
       <Animated.View
-        style={[styles.scene, this._getAnimatedStyle()]}
+        {...panHandlers}
+        style={style}
       >
         {this.props.children}
       </Animated.View>
@@ -26,6 +61,7 @@ export default class Scene extends Component {
 
   _getAnimatedStyle(): Object {
     const { layout, position, scene, } = this.props;
+    console.log('_getAnimatedStyle', scene);
     const { index, } = scene;
 
     const inputRange = [index - 1, index, index + 1];
@@ -45,14 +81,9 @@ export default class Scene extends Component {
 
 const styles = StyleSheet.create({
   scene: {
-    backgroundColor: '#E9E9EF',
     flex: 1,
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingTop: 30,
+    flexDirection: 'column',
+    paddingTop: 64,
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.4,
