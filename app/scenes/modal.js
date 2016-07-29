@@ -9,13 +9,13 @@ import Button from '../components/button';
 
 export default class Modal extends Component {
   static propTypes = {
-    navigate: PropTypes.func.isRequired,
+    onNavigate: PropTypes.func.isRequired,
     scene: PropTypes.object.isRequired,
     transitionProps: PropTypes.object.isRequired,
   };
 
   render() {
-    const { navigate, scene, transitionProps } = this.props;
+    const { onNavigate, scene, transitionProps } = this.props;
     return (
       <Scene {...transitionProps}>
         <ScrollView style={styles.scrollView}>
@@ -27,7 +27,7 @@ export default class Modal extends Component {
 
             <Button
               label="Close"
-              onPress={() => navigate({ type: 'pop' })}
+              onPress={() => onNavigate({ type: 'pop' })}
             />
           </ScrollView>
         </ScrollView>

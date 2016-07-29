@@ -62,7 +62,7 @@ export default class Navigator extends Component {
           <Home
             {...sceneProps}
             key={sceneProps.scene.key}
-            navigate={this._navigate}
+            onNavigate={this._navigate}
           />
         );
       case 'About':
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    // backgroundColor: 'rgba(0, 0, 0, 0.25)'
+    backgroundColor: 'rgba(255,255,255,0.5)'
   },
   stack: {
     flex: 1,

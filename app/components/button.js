@@ -7,10 +7,8 @@ import React, { PropTypes } from 'react';
 import { Text, TouchableHighlight, View, StyleSheet } from 'react-native';
 
 const Button = (props) => (
-  <TouchableHighlight onPress={props.onPress}>
-    <View style={[styles.button, props.style]}>
-      <Text style={[styles.label, props.labelStyle]}>{props.label}</Text>
-    </View>
+  <TouchableHighlight onPress={props.onPress} style={[styles.button, props.style]}>
+    <Text style={[styles.label, props.labelStyle]}>{props.label}</Text>
   </TouchableHighlight>
 );
 
@@ -25,12 +23,15 @@ export default Button;
 
 const styles = StyleSheet.create({
   button: {
-    padding: 20,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
     borderWidth: 3,
-    borderColor: 'gray',
-    backgroundColor: 'gray'
+    borderColor: 'lightblue',
+    backgroundColor: 'lightblue'
   },
   label: {
+    textAlign: 'center',
     color: '#ffffff'
   }
 });

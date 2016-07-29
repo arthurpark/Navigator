@@ -9,13 +9,13 @@ import Button from '../components/button';
 
 export default class Home extends Component {
   static propTypes = {
-    navigate: PropTypes.func.isRequired,
+    onNavigate: PropTypes.func.isRequired,
     scene: PropTypes.object.isRequired,
     transitionProps: PropTypes.object.isRequired,
   };
 
   render() {
-    const { navigate, scene, transitionProps } = this.props;
+    const { onNavigate, scene, transitionProps } = this.props;
     return (
       <Scene {...transitionProps}>
         <ScrollView style={styles.scrollView}>
@@ -27,15 +27,15 @@ export default class Home extends Component {
 
             <Button
               label="About"
-              onPress={() => navigate({ type: 'push', key: 'about' })}
+              onPress={() => onNavigate({ type: 'push', route: { key: 'about' } })}
             />
             <Button
               label="Modal"
-              onPress={() => navigate({ type: 'push', key: 'modal' })}
+              onPress={() => onNavigate({ type: 'push', route: { key: 'modal' } })}
             />
             <Button
               label="Pop Route"
-              onPress={() => navigate({ type: 'pop' })}
+              onPress={() => onNavigate({ type: 'pop' })}
             />
           </ScrollView>
         </ScrollView>

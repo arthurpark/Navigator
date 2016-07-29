@@ -1,13 +1,22 @@
 // export { default as Home } from './home';
 // export { default as About } from './about';
 // export { default as Modal } from './modal';
-//
+
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import Button from '../components/button';
 
 export const Home = (props) => (
   <View style={styles.scene}>
-    <Text style={styles.text}>Home</Text>
+    <Button
+      label="Open Modal"
+      onPress={() => props.onNavigate({
+        type: 'push',
+        route: {
+          key: 'Modal'
+        }
+      })}
+    />
   </View>
 );
 
@@ -27,8 +36,8 @@ const styles = StyleSheet.create({
   scene: {
     flex: 1,
     flexDirection: 'column',
-    paddingTop: 30,
-    backgroundColor: '#ccc'
+    paddingTop: 64,
+    backgroundColor: '#fefefe'
   },
   text: {
     color: 'white'
