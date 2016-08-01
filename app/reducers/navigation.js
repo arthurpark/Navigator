@@ -18,17 +18,17 @@ const initialState = {
   // Scenes for the `home` tab.
   home: {
     index: 0,
-    routes: [{key: 'Conversations', color: '#ff0000'}],
+    routes: [{key: 'Conversations', title: 'Home' }],
   },
   // Scenes for the `contacts` tab.
   contacts: {
     index: 0,
-    routes: [{key: 'Contacts', color: '#ff7f00'}],
+    routes: [{key: 'Contacts', title: 'Contacts' }],
   },
   // Scenes for the `modal` tab.
   modal: {
     index: 0,
-    routes: [{ key: 'Modal', color: '#ffff00', direction: 'vertical' }],
+    routes: [{ key: 'Modal', direction: 'vertical', title: 'Modal' }],
   },
 };
 

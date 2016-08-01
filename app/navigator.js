@@ -48,11 +48,15 @@ export default class Navigator extends Component {
     const hideTabBar = route.key === 'Modal';
 
     return (
-      <View style={styles.navigator}>
+      <View style={styles.container}>
         <NavigationTransitioner
-          style={styles.stack}
+          style={styles.container}
           navigationState={tabState}
           render={this._render}
+          configureTransition={() => ({
+            duration: 250,
+            easing: Easing.inOut(Easing.ease)
+          })}
         />
 
         {!hideTabBar && (
@@ -82,8 +86,8 @@ export default class Navigator extends Component {
     const hideHeader = activeScene.route.key === 'Modal';
 
     return (
-      <View style={{ flex: 1 }}>
-        <View style={styles.cardContainer}>
+      <View style={styles.container}>
+        <View style={styles.container}>
           {scenes}
         </View>
 
@@ -92,7 +96,7 @@ export default class Navigator extends Component {
             {...sceneProps}
             renderTitleComponent={({ scene }) => (
               <NavigationHeader.Title>
-                {scene.route.key}
+                {scene.route.title}
               </NavigationHeader.Title>
             )}
             onNavigateBack={this._handleNavigateBack}
@@ -173,19 +177,10 @@ export default class Navigator extends Component {
 }
 
 const styles = StyleSheet.create({
-  navigator: {
+  container: {
     flex: 1,
   },
   header: {
     backgroundColor: 'rgba(255,255,255,0.5)'
-  },
-  stack: {
-    flex: 1,
-  },
-  card: {
-    flex: 1,
-  },
-  cardContainer: {
-    flex: 1,
   },
 });
