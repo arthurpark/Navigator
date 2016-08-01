@@ -27,17 +27,12 @@ export default class Conversations extends Component {
 
         <Button
           label="Thread"
-          onPress={() => navigate({ type: 'push', route: { key: 'Thread' } })}
+          onPress={() => navigate({ type: 'push', route: { key: 'Thread', title: 'Thread from Home tab' } })}
         />
 
         <Button
           label="Modal"
-          onPress={() => navigate({ type: 'push', route: { key: 'Modal', direction: 'vertical' } })}
-        />
-
-        <Button
-          label="Pop Route"
-          onPress={() => navigate({ type: 'pop' })}
+          onPress={() => navigate({ type: 'push', route: { key: 'Modal', title: 'Modal', direction: 'vertical' } })}
         />
 
       </ScrollView>

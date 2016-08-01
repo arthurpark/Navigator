@@ -6,7 +6,7 @@ import React, { Component, PropTypes } from 'react';
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import Contacts from './contacts';
 import Thread from './thread';
-import Button from '../components/button';
+import Modal from './modal';
 
 // TODO: Inspect scene to determine which screen to show
 //       while staying at Home tab
@@ -19,12 +19,15 @@ export default class ContactsScene extends Component {
   render() {
     const { onNavigate, sceneProps } = this.props;
     const { scene, scenes } = sceneProps;
-    console.log('[ContactsScene]', scene);
 
     switch (scene.route.key) {
     case 'Thread':
       return (
         <Thread sceneProps={sceneProps} navigate={onNavigate} />
+      );
+    case 'Modal':
+      return (
+        <Modal sceneProps={sceneProps} navigate={onNavigate} />
       );
     case 'Contacts':
     default:

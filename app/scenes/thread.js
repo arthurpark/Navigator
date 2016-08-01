@@ -26,8 +26,13 @@ export default class Thread extends Component {
           </View>
 
           <Button
-            label="Pop Route"
+            label="Pop Route (Back)"
             onPress={() => navigate({ type: 'pop' })}
+          />
+
+          <Button
+            label="Modal"
+            onPress={() => navigate({ type: 'push', route: { key: 'Modal', title: 'Modal', direction: 'vertical' } })}
           />
 
         </ScrollView>

@@ -22,16 +22,16 @@ export default class Contacts extends Component {
       <ScrollView style={styles.scrollView}>
 
         <View>
-          <Text>Contacts: {scene.route.key}</Text>
+          <Text>Contacts: {scene.route.title}</Text>
         </View>
 
         <Button
           label="Thread"
-          onPress={() => navigate({ type: 'push', route: { key: 'Thread' } })}
+          onPress={() => navigate({ type: 'push', route: { key: 'Thread', title: 'Thread from Contacts tab' } })}
         />
         <Button
-          label="Pop Route"
-          onPress={() => navigate({ type: 'pop' })}
+          label="Modal"
+          onPress={() => navigate({ type: 'push', route: { key: 'Modal', title: 'Modal', direction: 'vertical' } })}
         />
 
       </ScrollView>
