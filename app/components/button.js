@@ -4,12 +4,12 @@
  * @flow
  */
 import React, { PropTypes } from 'react';
-import { Text, TouchableHighlight, View, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 
 const Button = (props) => (
-  <TouchableHighlight onPress={props.onPress} style={[styles.button, props.style]}>
+  <TouchableOpacity onPress={props.onPress} style={[styles.button, props.style]}>
     <Text style={[styles.label, props.labelStyle]}>{props.label}</Text>
-  </TouchableHighlight>
+  </TouchableOpacity>
 );
 
 Button.propTypes = {
