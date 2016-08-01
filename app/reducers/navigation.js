@@ -11,19 +11,19 @@ const initialState = {
   tabs: {
     index: 0,
     routes: [
-      {key: 'home'},
-      {key: 'contacts'},
+      { key: 'home' },
+      { key: 'contacts' },
     ],
   },
   // Scenes for the `home` tab.
   home: {
     index: 0,
-    routes: [{key: 'Conversations', title: 'Home' }],
+    routes: [{ key: 'Conversations', title: 'Home' }],
   },
   // Scenes for the `contacts` tab.
   contacts: {
     index: 0,
-    routes: [{key: 'Contacts', title: 'Contacts' }],
+    routes: [{ key: 'Contacts', title: 'Contacts' }],
   },
   // Scenes for the `modal` tab.
   modal: {
@@ -89,6 +89,7 @@ export default function navigationReducer(
   if (!state) {
     return initialState;
   }
+
   const reducer = reducers[action.type];
   const nextState = reducer(state, action);
 

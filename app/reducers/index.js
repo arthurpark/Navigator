@@ -5,14 +5,18 @@
 import navigation from './navigation';
 
 export default function reducer(
-  state: ?NavigationState = {},
+  state,
   action: any
 ): Object {
+  if (!state) {
+    return {
+      navigation: navigation(state, action)
+    };
+  }
+
   const nextState = {
     navigation: navigation(state.navigation, action)
   };
-
-  console.log(nextState === state, nextState, state)
 
   if (nextState !== state) {
     return nextState;

@@ -2,7 +2,7 @@
  * Navigator
  * @flow
  */
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   Easing,
   Text,
@@ -23,6 +23,7 @@ const {
   Card: NavigationCard,
   Header: NavigationHeader,
   PropTypes: NavigationPropTypes,
+  CardStack: NavigationCardStack,
 } = NavigationExperimental;
 
 const {
@@ -32,18 +33,16 @@ const {
 
 
 export default class Navigator extends Component {
-  state: NavigationState;
-
-  constructor(props) {
-    super(props);
-
-    this.state = reducer();
-  }
+  static propTypes = {
+    navigationState: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
+  };
 
   render() {
-    const { tabs } = this.state;
+    const { navigationState } = this.props;
+    const { tabs } = navigationState;
     const tabKey = tabs.routes[tabs.index].key;
-    const tabState = this.state[tabKey];
+    const tabState = navigationState[tabKey];
     const route = tabState.routes[tabState.index];
     const hideTabBar = route.key === 'Modal';
 
@@ -60,7 +59,7 @@ export default class Navigator extends Component {
         />
 
         {!hideTabBar && (
-          <TabBar navigationState={tabs} onNavigate={this._navigate} />
+          <TabBar navigationState={tabs} onNavigate={this.props.navigate} />
         )}
       </View>
     );
@@ -76,7 +75,7 @@ export default class Navigator extends Component {
     const sceneProps = { ...transitionProps, activeScene };
 
     const scenes = transitionProps.scenes.map(
-      scene => this._renderScene({
+      scene => this._renderTab({
         ...transitionProps,
         scene,
         direction: scene.route.direction
@@ -91,20 +90,24 @@ export default class Navigator extends Component {
           {scenes}
         </View>
 
-        {!hideHeader && (
-          <NavigationHeader
-            {...sceneProps}
-            renderTitleComponent={({ scene }) => (
-              <NavigationHeader.Title>
-                {scene.route.title}
-              </NavigationHeader.Title>
-            )}
-            onNavigateBack={this._handleNavigateBack}
-            style={styles.header}
-          />
-        )}
+        {!hideHeader && this._renderHeader(sceneProps)}
       </View>
     )
+  };
+
+  _renderHeader = (sceneProps) => {
+    return (
+      <NavigationHeader
+        {...sceneProps}
+        renderTitleComponent={({ scene }) => (
+          <NavigationHeader.Title>
+            {scene.route.title}
+          </NavigationHeader.Title>
+        )}
+        onNavigateBack={this._handleNavigateBack}
+        style={styles.header}
+      />
+    );
   };
 
   // Render active tab's scene
@@ -136,43 +139,31 @@ export default class Navigator extends Component {
   };
 
   _renderTab = (sceneProps: Object): ReactElement => {
-    const { tabs } = this.state;
+    const { navigationState } = this.props;
+    const { tabs } = navigationState;
     const tabKey = tabs.routes[tabs.index].key;
-    const tabState = this.state[tabKey];
+    const tabState = navigationState[tabKey];
 
     switch (tabKey) {
     case 'home':
       return (
         <Home key={sceneProps.scene.key}
           sceneProps={sceneProps}
-          onNavigate={this._navigate}
+          onNavigate={this.props.navigate}
         />
       );
     case 'contacts':
       return (
         <Contacts key={sceneProps.scene.key}
           sceneProps={sceneProps}
-          onNavigate={this._navigate}
+          onNavigate={this.props.navigate}
         />
       );
     }
   };
 
-  // TODO: Dispatch Navigation Action
-  // Reduce state based on action
-  _navigate = (action: any) => {
-    const nextState = reducer(this.state, action);
-
-    if (nextState === this.state) {
-      return false;
-    }
-
-    this.setState(nextState);
-    return true;
-  };
-
   _handleNavigateBack = (): void => {
-    this._navigate({ type: 'pop' });
+    this.props.navigate({ type: 'pop' });
   };
 }
 

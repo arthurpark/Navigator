@@ -19,7 +19,6 @@ export default class HomeScene extends Component {
   render() {
     const { onNavigate, sceneProps } = this.props;
     const { scene, scenes } = sceneProps;
-    console.log('[HomeScene]', scene);
 
     switch (scene.route.key) {
     case 'Thread':
